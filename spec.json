@@ -3,6 +3,18 @@
   "description": "A simple bar chart showing categories and their values.",
   "width": "container",
   "height": 400,
+  "signals": [
+    {
+      "name": "blink",
+      "init": 1,
+      "on": [
+        {
+          "events": [{"type": "timer", "interval": 500}],
+          "update": "1 - blink"
+        }
+      ]
+    }
+  ],
   "data": {
     "values": [
       {"category": "A", "value": 28},
@@ -19,6 +31,13 @@
   "encoding": {
     "x": {"field": "category", "type": "nominal", "axis": {"labelAngle": 0}, "title": "Category"},
     "y": {"field": "value", "type": "quantitative", "title": "Value"},
-    "color": {"field": "category", "type": "nominal", "legend": null}
+    "color": {"field": "category", "type": "nominal", "legend": null},
+    "opacity": {
+      "condition": {
+        "test": "datum.category === 'D'",
+        "signal": "blink"
+      },
+      "value": 1
+    }
   }
 }
