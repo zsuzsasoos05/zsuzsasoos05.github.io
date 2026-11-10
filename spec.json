@@ -6,13 +6,7 @@
   "signals": [
     {
       "name": "blink",
-      "init": 1,
-      "on": [
-        {
-          "events": [{"type": "timer", "interval": 500}],
-          "update": "1 - blink"
-        }
-      ]
+      "init": 1
     }
   ],
   "data": {
@@ -27,26 +21,14 @@
       {"category": "H", "value": 87}
     ]
   },
-  "layer": [
-    {
-      "mark": "bar",
-      "transform": [{"filter": "datum.category != 'D'"}],
-      "encoding": {
-        "x": {"field": "category", "type": "nominal", "axis": {"labelAngle": 0}, "title": "Category"},
-        "y": {"field": "value", "type": "quantitative", "title": "Value"},
-        "color": {"field": "category", "type": "nominal", "legend": null},
-        "opacity": {"value": 1}
-      }
-    },
-    {
-      "mark": "bar",
-      "transform": [{"filter": "datum.category == 'D'"}],
-      "encoding": {
-        "x": {"field": "category", "type": "nominal"},
-        "y": {"field": "value", "type": "quantitative"},
-        "color": {"value": "#1f77b4"},
-        "opacity": {"signal": "blink"}
-      }
+  "mark": "bar",
+  "encoding": {
+    "x": {"field": "category", "type": "nominal", "axis": {"labelAngle": 0}, "title": "Category"},
+    "y": {"field": "value", "type": "quantitative", "title": "Value"},
+    "color": {"field": "category", "type": "nominal", "legend": null},
+    "opacity": {
+      "condition": {"test": "datum.category === 'D'", "signal": "blink"},
+      "value": 1
     }
-  ]
+  }
 }

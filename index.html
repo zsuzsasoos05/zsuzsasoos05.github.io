@@ -26,7 +26,15 @@
 <body>
   <div id="vis"></div>
   <script>
-    vegaEmbed('#vis', 'spec.json', {actions: false}).catch(console.error);
+    vegaEmbed('#vis', 'spec.json', {actions: false}).then(result => {
+      const view = result.view;
+      let on = true;
+      setInterval(() => {
+        on = !on;
+        view.signal('blink', on ? 1 : 0);
+        view.runAsync();
+      }, 500);
+    }).catch(console.error);
   </script>
 </body>
 </html>
