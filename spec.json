@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "A simple bar chart showing categories and their values.",
+  "description": "Bar chart with blinking D column.",
   "width": "container",
   "height": 400,
   "signals": [
@@ -27,17 +27,26 @@
       {"category": "H", "value": 87}
     ]
   },
-  "mark": "bar",
-  "encoding": {
-    "x": {"field": "category", "type": "nominal", "axis": {"labelAngle": 0}, "title": "Category"},
-    "y": {"field": "value", "type": "quantitative", "title": "Value"},
-    "color": {"field": "category", "type": "nominal", "legend": null},
-    "opacity": {
-      "condition": {
-        "test": "datum.category === 'D'",
-        "signal": "blink"
-      },
-      "value": 1
+  "layer": [
+    {
+      "mark": "bar",
+      "transform": [{"filter": "datum.category != 'D'"}],
+      "encoding": {
+        "x": {"field": "category", "type": "nominal", "axis": {"labelAngle": 0}, "title": "Category"},
+        "y": {"field": "value", "type": "quantitative", "title": "Value"},
+        "color": {"field": "category", "type": "nominal", "legend": null},
+        "opacity": {"value": 1}
+      }
+    },
+    {
+      "mark": "bar",
+      "transform": [{"filter": "datum.category == 'D'"}],
+      "encoding": {
+        "x": {"field": "category", "type": "nominal"},
+        "y": {"field": "value", "type": "quantitative"},
+        "color": {"value": "#1f77b4"},
+        "opacity": {"signal": "blink"}
+      }
     }
-  }
+  ]
 }
